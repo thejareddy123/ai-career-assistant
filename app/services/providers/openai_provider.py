@@ -1,0 +1,1 @@
+response = openai.chat.completions.create(...)
