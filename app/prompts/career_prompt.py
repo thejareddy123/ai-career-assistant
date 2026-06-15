@@ -1,4 +1,4 @@
-def build_career_prompt(user_message: str,user_level:str,skills:list) -> str:
+def build_prompt(user_message: str,user_level:str,skills:list) -> str:
     """
     Build a career advisor prompt.
     """
