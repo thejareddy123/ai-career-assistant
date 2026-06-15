@@ -1,46 +1,65 @@
 
-from prompts.career_prompt import build_prompt
-from memory.conversation_memory import save_message,get_history
-from memory.context_manager import get_recent_context
-from memory.memory_extractor import extract_memory
-from memory.session_memory import create_session, session_exists
-from memory.memory_retriever import retrieve_memory
-from memory.memory_updater import update_memory
+from app.prompts.career_prompt import build_prompt
+from app.memory.conversation_memory import save_message,get_history
+from app.memory.context_manager import get_recent_context
+from app.memory.memory_extractor import extract_memory
+from app.memory.session_memory import create_session, session_exists
+from app.memory.memory_retriever import retrieve_memory
+from app.memory.memory_updater import update_memory
+from app.memory.memory_store import get_memory, save_memory
+from app.providers import mock_provider as provider
 
-def chat(message, session_id):
+def chat(session_id: str,message: str):
 
-    save_message(session_id, "user", message)
+    # Save User Message
+
+    save_message(session_id,"user",message)
+
+    # Extract Memory
 
     extracted_memory = extract_memory(message)
 
+    # Load Existing Memory
+
     current_memory = get_memory(session_id)
+
+    # Update Memory
 
     updated_memory = update_memory(current_memory,extracted_memory)
 
+    # Save Memory
+
     save_memory(session_id,updated_memory)
+
+    # Load History
 
     history = get_history(session_id)
 
+    # Build Context
+
     context = get_recent_context(history)
+
+    # Retrieve Memory
 
     relevant_memory = retrieve_memory(updated_memory,message)
 
-    prompt = build_prompt(context,relevant_memory, message)
+    # Build Prompt
+
+    prompt = build_prompt(context,relevant_memory,message)
+
+    # Generate Response
 
     response = provider.generate_response(prompt)
 
-    save_message(session_id,"assistant",response) 
+    # Save AI Response
+
+    save_message(session_id,"assistant",response)
 
     return response
 
 
 
-def get_ai_response(user_message: str) -> str:
-    prompt = build_prompt(user_message)
 
-    print(prompt)  # Development debugging
-
-    return f"Mock AI Response for: {user_message}"\
     
 
 """

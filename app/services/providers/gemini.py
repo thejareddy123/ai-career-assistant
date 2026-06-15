@@ -1,1 +1,0 @@
-response = model.generate_content(...)
