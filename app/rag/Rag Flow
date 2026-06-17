@@ -1,0 +1,37 @@
+Upload Time (Ingestion)
+
+PDF
+ ↓
+Document Loader
+ ↓
+Text
+ ↓
+Chunker
+ ↓
+Chunks
+ ↓
+Embedding Service
+ ↓
+Vectors
+ ↓
+Vector Store
+
+
+
+
+
+Question Time (Query)
+
+Question
+ ↓
+Embedding
+ ↓
+Retriever
+ ↓
+Top Chunks
+ ↓
+Prompt Builder
+ ↓
+LLM
+ ↓
+Answer
